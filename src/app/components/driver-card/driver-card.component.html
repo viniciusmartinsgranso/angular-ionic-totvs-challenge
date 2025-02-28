@@ -1,0 +1,59 @@
+@for (motorista of driver | keyvalue; track motorista.key) {
+  <ion-accordion>
+    <ion-item slot="header">
+      <ion-label>{{ motorista.key }}</ion-label>
+    </ion-item>
+
+    <ion-card slot="content">
+
+      <ion-card-header>
+        <ion-list [inset]="true">
+          <ion-item>
+            <div class="status success"></div>
+            <ion-label>Entregues: {{ motorista.value.ENTREGUE.length }}</ion-label>
+          </ion-item>
+
+          <ion-item>
+            <div class="status medium"></div>
+            <ion-label>Pendentes: {{ motorista.value.PENDENTE.length }}</ion-label>
+          </ion-item>
+
+          <ion-item>
+            <div class="status danger"></div>
+            <ion-label>Insucesso: {{ motorista.value.INSUCESSO.length }}</ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              Total de entregas: {{ motorista.value.ENTREGUE.length + motorista.value.PENDENTE.length + motorista.value.INSUCESSO.length }}
+            </ion-label>
+          </ion-item>
+
+        </ion-list>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+
+          <app-grid-header [cols]="cols"/>
+
+          @for (delivery of motorista.value.ENTREGUE; track delivery.id) {
+            <app-grid-content [rows]="[isDriver ? delivery.motorista.nome : delivery.cliente_origem.bairro, delivery.cliente_destino.bairro]"
+                              [status]="delivery.status_entrega"/>
+          }
+
+          @for (delivery of motorista.value.PENDENTE; track delivery.id) {
+            <app-grid-content [rows]="[isDriver ? delivery.motorista.nome : delivery.cliente_origem.bairro, delivery.cliente_destino.bairro]"
+                              [status]="delivery.status_entrega"/>
+          }
+
+          @for (delivery of motorista.value.INSUCESSO; track delivery.id) {
+            <app-grid-content [rows]="[isDriver ? delivery.motorista.nome : delivery.cliente_origem.bairro, delivery.cliente_destino.bairro]"
+                              [status]="delivery.status_entrega"/>
+          }
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+  </ion-accordion>
+}

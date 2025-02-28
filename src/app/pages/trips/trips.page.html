@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Encomendas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Encomendas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-accordion-group #accordionGroup>
+    <ion-accordion value="drivers">
+      <ion-item slot="header">
+        <ion-label>Listar por motoristas</ion-label>
+      </ion-item>
+
+      <ion-accordion-group slot="content">
+        <app-driver-card [driver]="deliveriesByDrivers" [cols]="['Status', 'Saída', 'Destino']"></app-driver-card>
+      </ion-accordion-group>
+
+    </ion-accordion>
+
+    <ion-item-divider></ion-item-divider>
+
+    <ion-accordion value="districts">
+      <ion-item slot="header">
+        <ion-label>Listar por bairros</ion-label>
+      </ion-item>
+
+      <ion-accordion-group slot="content">
+        <app-driver-card [driver]="deliveriesByDistricts" [isDriver]="true"
+                         [cols]="['Status', 'Motorista', 'Destino']"></app-driver-card>
+      </ion-accordion-group>
+    </ion-accordion>
+
+  </ion-accordion-group>
+</ion-content>

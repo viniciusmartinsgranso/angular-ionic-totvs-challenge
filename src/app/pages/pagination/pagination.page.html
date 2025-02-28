@@ -1,0 +1,110 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Todas encomendas paginadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="medium">Encomendas paginadas.</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-content>
+
+      <ion-item>
+        <ion-select label="Filtrar por motorista"
+                    label-placement="floating"
+                    [(ngModel)]="selectedDriver"
+                    (ionChange)="applyFilters()">
+          <ion-select-option value="">Todos</ion-select-option>
+
+          @for (driver of driversList; track driver) {
+            <ion-select-option [value]="driver">
+              {{ driver }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select label="Filtrar por status"
+                    label-placement="floating"
+                    [(ngModel)]="selectedStatus"
+                    (ionChange)="applyFilters()">
+          <ion-select-option value="">Todos</ion-select-option>
+
+          <ion-select-option [value]="statusEnum.ENTREGUE">
+            Entregue
+          </ion-select-option>
+
+          <ion-select-option [value]="statusEnum.PENDENTE">
+            Pendente
+          </ion-select-option>
+
+          <ion-select-option [value]="statusEnum.INSUCESSO">
+            Insucesso
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select label="Filtrar por bairro de origem"
+                    label-placement="floating"
+                    [(ngModel)]="selectedOrigin"
+                    (ionChange)="applyFilters()">
+          <ion-select-option value="">Todos</ion-select-option>
+
+          @for (district of originList; track district) {
+            <ion-select-option [value]="district">
+              {{ district }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select label="Filtrar por bairro de destino"
+                    label-placement="floating"
+                    [(ngModel)]="selectedDistrict"
+                    (ionChange)="applyFilters()">
+          <ion-select-option value="">Todos</ion-select-option>
+
+          @for (district of districtList; track district) {
+            <ion-select-option [value]="district">
+              {{ district }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-button expand="full" (click)="cleanFilters()">Limpar Filtros</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item-divider/>
+
+  <div class="ion-padding">
+    <ion-card-content>
+      <ion-grid>
+
+        <app-grid-header [cols]="['Status', 'Motorista', 'Origem', 'Destino']"/>
+
+        @for (delivery of paginatedList; track delivery.id) {
+          <app-grid-content [status]="delivery.status_entrega"
+                            [rows]="[delivery.motorista.nome, delivery.cliente_origem.bairro, delivery.cliente_destino.bairro]"/>
+
+        }
+      </ion-grid>
+
+    </ion-card-content>
+  </div>
+
+  <div class="ion-padding">
+    <app-footer [page]="page" [totalItems]="filteredList.length"
+                (changePage)="handlePageChange($event)"></app-footer>
+  </div>
+</ion-content>
