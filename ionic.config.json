@@ -1,0 +1,7 @@
+{
+  "name": "angular.ionic.totvs-challenge",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
